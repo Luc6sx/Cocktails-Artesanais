@@ -1,8 +1,11 @@
 package com.example.MixologyMaestro.Repository;
 
+import com.example.MixologyMaestro.Model.ReceitaIngrediente;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ReceitaIngrediente extends JpaRepository<ReceitaIngrediente, Long>
+@Repository
+public interface ReceitaIngredienteRepository extends JpaRepository<ReceitaIngrediente, Long>
 {
     // JpaRepository<TipoDaEntidade, TipoDaChavePrimaria>
     // Este interface já fornece os métodos:
