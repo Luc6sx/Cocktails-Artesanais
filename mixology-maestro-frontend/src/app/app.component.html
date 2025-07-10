@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixology Maestro</title>
+</head>
+<body>
+<header id="header">
+  <nav id="nav">
+    <button class="botoes">Home</button>
+    <button class="botoes">Ingredientes</button>
+    <button class="botoes">Receitas</button>
+  </nav>
+</header>
+<section>
+  <textarea placeholder="Proucure aqui: Receitas / Ingredientes" name="proucurar" id="proucurar"></textarea>
+  <button (click)="criarReceita()" class="criar">Criar</button>
+</section>
+<main>
+  <div *ngFor="let receita of receitas" class="comida-card">
+    
+    <h3>{{ receita.nome }}</h3>
+  </div>
+</main>
+</body>
+</html>
