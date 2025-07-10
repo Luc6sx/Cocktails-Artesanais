@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mixology Maestro</title>
-</head>
-<body>
+
+
 <header id="header">
   <nav id="nav">
     <button class="botoes">Home</button>
@@ -13,15 +7,45 @@
     <button class="botoes">Receitas</button>
   </nav>
 </header>
+
 <section>
   <textarea placeholder="Proucure aqui: Receitas / Ingredientes" name="proucurar" id="proucurar"></textarea>
-  <button (click)="criarReceita()" class="criar">Criar</button>
+  
+ 
+  <button (click)="abrirPopup()" class="criar">Criar</button>
+  
+  
+  <div *ngIf="isPopupVisible" class="popup-overlay">
+    <div class="popup-content">
+      <form (ngSubmit)="onSubmit()">
+        <h2>Adicionar Nova Receita</h2>
+
+        <label for="nome">Nome da Receita</label>
+        <input type="text" id="nome" name="nome" [(ngModel)]="novaReceita.nome" placeholder="Ex: Caipirinha">
+
+        <label for="imageUrl">URL da Imagem</label>
+        <input type="text" id="imageUrl" name="imageUrl" [(ngModel)]="novaReceita.imageUrl" placeholder="http://exemplo.com/imagem.png">
+
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="3" [(ngModel)]="novaReceita.descricao" placeholder="Uma breve descrição"></textarea>
+
+        <label for="Instrucao">Instrução</label>
+        <textarea id="Instrucao" name="Instrucao" rows="3" [(ngModel)]="novaReceita.instrucao" placeholder="Instrução para fazer"></textarea>
+
+        <label for="Categoria">Categoria</label>
+        <textarea id="Categoria" name="Categoria" rows="1" [(ngModel)]="novaReceita.categoria" placeholder="categoria do prato"></textarea>
+
+        <button type="button" class="btn-fechar" (click)="fecharPopup()">X</button>
+        <button type="submit" class="btn-salvar">Salvar Receita</button>
+      </form>
+    </div>
+  </div>
 </section>
+
 <main>
   <div *ngFor="let receita of receitas" class="comida-card">
-    
+    <img [src]="receita.imageUrl" alt="imagem de {{receita.nome}}">
     <h3>{{ receita.nome }}</h3>
   </div>
 </main>
-</body>
-</html>
+
