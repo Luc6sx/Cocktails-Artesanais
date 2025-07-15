@@ -18,34 +18,64 @@
   <div *ngIf="isPopupVisible" class="popup-overlay">
     <div class="popup-content">
       <form (ngSubmit)="onSubmit()">
-        <h2>Adicionar Nova Receita</h2>
+        <div class="form-group">
+          <label for="nome">Nome da Receita:</label>
+          <input type="text" id="nome" [(ngModel)]="novaReceita.nome" name="nome" required>
+        </div>
 
-        <label for="nome">Nome da Receita</label>
-        <input type="text" id="nome" name="nome" [(ngModel)]="novaReceita.nome" placeholder="Ex: Caipirinha">
+        <div class="form-group">
+          <label for="categoria">Categoria:</label>
+          <input type="text" id="categoria" [(ngModel)]="novaReceita.categoria" name="categoria" required>
+        </div>
 
-        <label for="imageUrl">URL da Imagem</label>
-        <input type="text" id="imageUrl" name="imageUrl" [(ngModel)]="novaReceita.imageUrl" placeholder="http://exemplo.com/imagem.png">
+        <div class="form-group">
+          <label for="descricao">Descrição:</label>
+          <textarea id="descricao" [(ngModel)]="novaReceita.descricao" name="descricao"></textarea>
+        </div>
 
-        <label for="descricao">Descrição</label>
-        <textarea id="descricao" name="descricao" rows="3" [(ngModel)]="novaReceita.descricao" placeholder="Uma breve descrição"></textarea>
+        <div class="form-group">
+          <label for="instrucoes">Instruções:</label>
+          <textarea id="instrucoes" [(ngModel)]="novaReceita.instrucoes" name="instrucoes"></textarea>
+        </div>
 
-        <label for="Instrucao">Instrução</label>
-        <textarea id="Instrucao" name="Instrucao" rows="3" [(ngModel)]="novaReceita.instrucao" placeholder="Instrução para fazer"></textarea>
+        <div class="form-group">
+          <label for="imagemFile">Upload de Imagem:</label>
+          <input type="file" id="imagemFile" (change)="onFileSelected($event)" accept="image/*">
+        </div>
 
-        <label for="Categoria">Categoria</label>
-        <textarea id="Categoria" name="Categoria" rows="1" [(ngModel)]="novaReceita.categoria" placeholder="categoria do prato"></textarea>
+        <div *ngIf="imageUrl" class="image-preview">
+          <h4>Pré-visualização:</h4>
+          <img [src]="imageUrl" alt="Pré-visualização" style="max-width: 150px; max-height: 150px;">
+        </div>
 
-        <button type="button" class="btn-fechar" (click)="fecharPopup()">X</button>
-        <button type="submit" class="btn-salvar">Salvar Receita</button>
+        <button type="submit">Salvar Receita</button>
+        <button type="button" (click)="fecharPopup()">Cancelar</button>
       </form>
     </div>
   </div>
 </section>
 
 <main>
-  <div *ngFor="let receita of receitas" class="comida-card">
+  <div (click)="abrirRe(receita)" *ngFor="let receita of receitas" class="comida-card">
     <img [src]="receita.imageUrl" alt="imagem de {{receita.nome}}">
-    <h3>{{ receita.nome }}</h3>
+    <h3 >{{ receita.nome }}</h3>
   </div>
+  <div *ngIf="abrirReceita && selectedReceita" class="popup-overlay">
+  <div class="popup-content">
+    <button class="btn-fechar" (click)="fecharPopup()">X</button>
+    
+    <div class="popup-cards">
+      <h2>{{ selectedReceita.nome }}</h2>
+
+      <img *ngIf="selectedReceita.imageUrl" [src]="'http://localhost:8080/images/' + selectedReceita.imageUrl" alt="Imagem de {{selectedReceita.nome}}">
+
+      <p><strong>Categoria:</strong> {{ selectedReceita.categoria }}</p>
+      <p><strong>Descrição:</strong> {{ selectedReceita.descricao }}</p>
+      <p><strong>Instruções:</strong> {{ selectedReceita.instrucoes }}</p>
+
+      </div>
+    
+  </div>
+</div>
 </main>
 

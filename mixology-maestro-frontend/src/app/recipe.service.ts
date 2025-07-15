@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // HttpHeaders adicionado
 import { Observable } from 'rxjs';
-import { Receita } from './receita.model';
+import { Receita } from './receita.model'; // Seu modelo de receita
+
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeService {
+export class RecipeService { // Nome da classe é RecipeService
 
-  //URL da API SpringBoot
   private apiUrl = 'http://localhost:8080/api/receitas';
 
-  //HttpClient para poder fazer as requisições
   constructor(private http: HttpClient) { }
 
-  /**
-   * Busca todas as receitas no back-end.
-   * Retorna um Observable com um array de Receitas.
-   */
-  public getReceitas() : Observable<Receita[]>
-  {
-    return this.http.get<Receita[]>(this.apiUrl);
+  getReceitas(): Observable<Receita[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa('admin:admin')
+    });
+    return this.http.get<Receita[]>(this.apiUrl, { headers: headers });
   }
 
-   /**
-   * Envia uma nova receita para ser salva no back-end.
-   * @param receita O objeto da receita a ser criada.
-   */
-
-  public createReceita(receita: Omit<Receita, 'id'>): Observable<Receita>
-  {
-    return this.http.post<Receita>(this.apiUrl, receita)
+  createReceita(receita: Omit<Receita, 'id'>): Observable<Receita> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa('admin:admin')
+    });
+    return this.http.post<Receita>(this.apiUrl, receita, { headers: headers });
   }
 
+  uploadImagem(receitaId: number, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
 
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa('admin:admin')
+    });
+
+    return this.http.post(`${this.apiUrl}/${receitaId}/upload-imagem`, formData, { headers: headers });
+  }
 }
